@@ -1,75 +1,149 @@
-# LeadPro - Premium Lead Management CRM
+# LeadCRM — Premium Lead Management CRM & AI Sales Assistant
 
-LeadPro is a sleek, modern, and highly interactive Full-Stack Lead Management CRM built for small businesses to track, qualify, and convert potential customers.
-
-## 🚀 Features
-
-- **Lead Statistics Dashboard**: Visual KPI metrics (Total leads, active pipeline, conversions, conversion rate) with responsive charts and pipeline funnel breakdowns.
-- **Robust CRUD Operations**: Full capability to add, view, edit, and delete leads.
-- **Advanced Lead Table**: Live search (name, email, company) with input debounce, status filtering, multi-field sorting, and pagination.
-- **Inline Status Editor**: Seamless dropdown selector to move leads along the pipeline directly from the table layout.
-- **Visual Design System**: Rich, responsive interface utilizing HSL tailored colors, dark/light contrast elements, glassmorphism overlays, custom scrollbars, and fluid animations.
-- **Clean REST API**: Fully modular architecture with controllers, models, router, global error-handling, and schema validation.
-- **Database Seeder**: Instantly populate the local database with pre-configured realistic lead entries for immediate evaluation.
+LeadCRM is a sleek, modern, and highly interactive Full-Stack Customer Relationship Management (CRM) platform built for small businesses to track, qualify, and convert potential customers. It integrates **Google Gemini AI** to provide automated lead scoring, text summarization, smart call-note builders, and a floating chatbot to query your pipeline.
 
 ---
 
-## 🎨 Design Theme & Colors
+## 🎨 Interface & Screenshots
 
-- 🟣 **Primary (Brand)**: `#6D5DFC` (Royal Purple)
-- 🔵 **Accent (Information)**: `#3B82F6` (Blue)
-- 🟢 **Success (Converted)**: `#22C55E` (Green)
-- 🟡 **Warning (Qualified)**: `#F59E0B` (Amber)
-- 🔴 **Danger (Lost)**: `#EF4444` (Red)
-- **Backgrounds**:
-  - Main Panel: `#F8FAFC`
-  - Cards & Modals: `#FFFFFF`
-  - Sidebar Navigator: `#0F172A`
+### 1. Interactive Dashboard
+The central control panel with visual KPI summaries, live donut charts of lead statuses, a 30-day leads graph, conversion rate metrics, and recent activity logs.
+![LeadCRM Dashboard](images/dashboard.png)
+
+### 2. Leads Management
+A clean table interface supporting search queries, pagination, inline status selectors, sorting, and tab switches for list views, Kanban boards, and source channels.
+![Leads View](images/leads.png)
+
+### 3. Add & Edit Lead Modal
+A pop-up form to capture lead fields. For existing leads, it renders the "✨ AI Assistant Insights" panel to score conversion probability and summarize notes.
+![Add Lead Modal](images/add_lead.png)
+
+### 4. Tasks Manager
+A Kanban-style todo list to schedule follow-ups, set priorities, and track productivity metrics across calendar dates.
+![Tasks View](images/tasks.png)
+
+### 5. Calendar Scheduler
+A monthly planner to add and view scheduled meetings, calls, and proposals linked to specific day, month, and year values.
+![Calendar View](images/calendar.png)
+
+### 6. Reports & Analytics
+A comprehensive metrics page displaying conversion statistics, top performing sales representatives, lead acquisition channels (Website, Referrals, Social Media, Campaigns), and a 30-day Leads Over Time chart.
+
+### 7. Contacts Directory
+A direct contacts list showing names, companies, and starred items, with interactive call (`tel:`) and email (`mailto:`) links to reach customers instantly.
 
 ---
 
-## 💻 Tech Stack
+## ⚙️ How It Works (Under the Hood)
 
-- **Frontend**: React.js (built on Vite), vanilla CSS, Lucide React icons.
-- **Backend**: Node.js, Express.js, CORS, Dotenv, Nodemon.
-- **Database**: MongoDB (using Mongoose ODM).
+1. **Frontend Architecture (React + Vite)**:
+   - Built on React 18, the UI is styled with Vanilla CSS using modern styling standards (contrast backgrounds, royal purple gradients, rounded cards, and clean transitions).
+   - Navigation is handled through tab states in `App.jsx`, ensuring fluid page loads without browser refreshes.
+   
+2. **Backend Services (Express + Node.js)**:
+   - A modular MVC-style server running on Express.
+   - All CRUD actions for Leads, Tasks, and Calendar Events are verified with Mongoose schema validation.
+   - History logs and dashboard metrics are gathered using MongoDB aggregate pipelines (e.g., grouping by status, source channels, and lead creation dates for the past 30 days).
+
+3. **Gemini AI Engine**:
+   - The backend uses the official `@google/generative-ai` SDK.
+   - When requested, the server sends lead metadata and call notes to the Gemini model (`gemini-1.5-flash`) to generate structured summaries, score conversion probability (0–100) with reasoning, and suggest sales follow-ups.
+   - If a `GEMINI_API_KEY` is not present, the controller falls back to a high-fidelity **Demo AI mode** so all UI features, gauges, and note-copy actions remain testable.
+   - The floating chatbot sends your prompt, chat history, and the entire leads database as context to answer pipeline questions.
+
+4. **Real-time Notifications**:
+   - Simulated background notifications have been removed in favor of real notifications.
+   - Performing CRUD operations (saving leads, completing tasks, scheduling events, importing/exporting CSVs) triggers instant Toast popups and updates the notifications dropdown log.
 
 ---
 
-## 🛠️ Installation & Setup
+## 📂 Project Structure
+
+```
+LeadCRM/
+├── images/                  # Screenshot folder containing app views
+│   ├── dashboard.png
+│   ├── leads.png
+│   ├── add_lead.png
+│   ├── tasks.png
+│   └── calendar.png
+├── backend/                 # Node.js + Express backend
+│   ├── config/              # Mongoose DB connection setup
+│   ├── controllers/         # MVC controller queries (lead, event, task, AI)
+│   ├── models/              # MongoDB Schema definitions (Lead, Event, Task, Activity)
+│   ├── routes/              # Express Router endpoints (lead, event, task, AI)
+│   ├── .env                 # Environment configuration (PORT, MONGODB_URI, GEMINI_API_KEY)
+│   ├── seed.js              # Database populator script
+│   └── server.js            # Express server entry point
+├── frontend/                # Vite + React frontend
+│   ├── public/              # Static assets
+│   ├── src/                 # React source code
+│   │   ├── assets/          # Icons, vectors
+│   │   ├── components/      # UI Views (Dashboard, LeadsView, TasksView, CalendarView, ReportsView, ContactsView, SettingsView, LeadModal, AIChatWidget, AIPanel)
+│   │   ├── utils/           # API fetch handlers
+│   │   ├── App.jsx          # Root component and navigation state
+│   │   ├── index.css        # Core design system and CSS styling
+│   │   └── main.jsx         # App mounting entry point
+│   ├── index.html           # HTML container
+│   ├── package.json         # Dependency configuration
+│   └── vite.config.js       # Vite build configuration
+└── .gitignore               # Root git ignore patterns
+```
+
+---
+
+## 🛠️ Step-by-Step Setup Guide
+
+Follow these instructions to run the application from scratch on your local machine:
 
 ### Prerequisites
-- **Node.js** (v18.0.0 or higher recommended)
-- **MongoDB** running locally on default port `27017` (e.g. `mongodb://localhost:27017/`)
+* **Node.js** (v18.x.x or higher) installed on your system.
+* **MongoDB Community Server** installed and running on the default port `27017`.
 
-### Setup Instructions
+---
 
-Follow these steps to run both backend and frontend applications concurrently:
+### Step 1: Clone or Open the Project
+Ensure the project is located on your local drive (e.g. `C:\Users\...\Desktop\leadpro`).
 
-#### Step 1: Clone & Configure Backend
-1. Open a terminal inside the `/backend` folder:
+### Step 2: Configure Backend Environment
+1. Open a terminal and navigate to the `backend` folder:
    ```bash
    cd backend
    ```
-2. Install Node dependencies:
+2. Install the backend dependencies (including Express, Mongoose, and Google AI SDK):
    ```bash
    npm install
    ```
-3. Set up the local database seeder to populate sample leads:
-   ```bash
-   npm run seed
+3. Open or edit the `.env` file inside the `backend` folder and add your configuration:
+   ```env
+   PORT=5000
+   MONGODB_URI=mongodb://localhost:27017/leadpro
+   NODE_ENV=development
+   GEMINI_API_KEY=your_actual_gemini_api_key_here
    ```
-4. Start the backend development server (listens on `http://localhost:5000`):
-   ```bash
-   npm run dev
-   ```
+   *(If you leave `GEMINI_API_KEY` blank or write `your_key_here`, the app will automatically operate in **Demo AI Mode**).*
 
-#### Step 2: Configure & Start Frontend
-1. Open a separate terminal inside the `/frontend` folder:
+### Step 3: Seed the Database
+Populate your MongoDB database with realistic sample leads, tasks, calendar events, and activity logs:
+```bash
+npm run seed
+```
+
+### Step 4: Run the Backend Server
+Start the development server with Nodemon (restarts automatically on code changes):
+```bash
+npm run dev
+```
+The server will start on `http://localhost:5000` and output `MongoDB Connected: localhost`.
+
+---
+
+### Step 5: Configure & Start Frontend
+1. Open a new, separate terminal and navigate to the `frontend` folder:
    ```bash
-   cd frontend
+   cd ../frontend
    ```
-2. Install React dependencies:
+2. Install the React and Vite dependencies:
    ```bash
    npm install
    ```
@@ -77,33 +151,6 @@ Follow these steps to run both backend and frontend applications concurrently:
    ```bash
    npm run dev
    ```
-4. Click or navigate to the local server URI in your browser: `http://localhost:5173/`
+4. Navigate to the local server URL in your browser: **`http://localhost:5173/`**
 
----
-
-## 🔌 API Endpoints Reference
-
-All backend API routes are prefix-scoped with `/api/leads`:
-
-| HTTP Method | Route | Description | Query Parameters (Optional) |
-| :--- | :--- | :--- | :--- |
-| **GET** | `/api/leads/stats/summary` | Retrieve dashboard KPI counts, conversion rates, and history graphs. | None |
-| **GET** | `/api/leads` | Get leads with search, filters, pagination, and sorting. | `search`, `status`, `sortBy`, `order`, `page`, `limit` |
-| **GET** | `/api/leads/:id` | Retrieve detailed database record for a single lead. | None |
-| **POST** | `/api/leads` | Create and validation check a new CRM lead. | Request body containing name, email, phone, company, status, notes |
-| **PUT** | `/api/leads/:id` | Update lead fields, logs, or pipeline statuses. | Request body containing modified fields |
-| **DELETE** | `/api/leads/:id` | Delete and remove lead entry from database. | None |
-
----
-
-## 🗄️ Database Schema Fields
-
-The MongoDB `Lead` collection uses the following data fields:
-
-- **Name** (`String`, Required, Trimmed)
-- **Email** (`String`, Required, Unique, Lowercased, Regex Validated)
-- **Phone** (`String`, Required)
-- **Company** (`String`, Required)
-- **Status** (`String`, Enum: `'New'`, `'Contacted'`, `'Qualified'`, `'Converted'`, `'Lost'`, Default: `'New'`)
-- **Notes** (`String`, Optional, Default: `""`)
-- **Created Date** (`Date`, Default: `Date.now`)
+Now, you can manage your CRM pipeline, view real-time charts, edit scheduler dates, and use your AI Sales Assistant!
