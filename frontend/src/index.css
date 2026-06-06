@@ -1,18 +1,18 @@
 /* Premium LeadCRM Design System - Complete Mockup Match */
 
 :root {
-  /* Color Palette matching the image */
-  --primary: #6D5DFC;
-  --primary-hover: #5b4ee6;
-  --primary-light: #F3F2FC;
+  /* Color Palette - Emerald Green & Slate Grey theme */
+  --primary: #059669;
+  --primary-hover: #047857;
+  --primary-light: #ECFDF5;
   
-  --accent: #3B82F6;
-  --accent-light: #EFF6FF;
+  --accent: #0284C7;
+  --accent-light: #F0F9FF;
 
-  --pink: #EC4899;
-  --pink-light: #FDF2F8;
+  --pink: #0EA5E9;
+  --pink-light: #F0F9FF;
 
-  --success: #22C55E;
+  --success: #10B981;
   --success-light: #F0FDF4;
 
   --warning: #F59E0B;
@@ -21,7 +21,7 @@
   --danger: #EF4444;
   --danger-light: #FEF2F2;
 
-  --bg-main: #F3F2FC; /* soft grayish lavender */
+  --bg-main: #F8FAFC; /* Slate-50 background */
   --bg-card: #FFFFFF;
   --bg-sidebar: #FFFFFF;
   
@@ -258,20 +258,91 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 
-/* Persistent Header Bar */
-.top-header {
+/* Horizontal Navbar Top Layout */
+.navbar {
   position: fixed;
   top: 0;
+  left: 0;
   right: 0;
-  left: 300px; /* offset for sidebar */
   height: 70px;
   background-color: #FFFFFF;
   border-bottom: 1px solid #E2E8F0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 2.5rem;
-  z-index: 90;
+  padding: 0 2rem;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.navbar-logo {
+  background: linear-gradient(135deg, var(--primary), #10B981);
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.navbar-title {
+  color: var(--text-main);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 1.5rem;
+  margin-right: auto;
+}
+
+.navbar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.navbar-link:hover {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+.navbar-link.active {
+  background-color: var(--primary);
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
 }
 
 .header-search {
@@ -456,11 +527,15 @@ h1, h2, h3, h4, h5, h6 {
 /* Main Content Workspace */
 .main-content {
   flex: 1;
-  margin-left: 300px; /* width of sidebar */
+  margin-left: 0; /* no vertical sidebar */
   margin-top: 70px; /* height of top header */
-  padding: 1.5rem 2rem;
+  padding: 2rem;
   background-color: var(--bg-main);
   min-width: 0;
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 /* Greeting Panel Row */
@@ -796,10 +871,10 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-main);
 }
 
-/* Third Row Details widgets (4 Columns) */
+/* Third Row Details widgets (2 Columns) */
 .details-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   margin-bottom: 1.5rem;
 }

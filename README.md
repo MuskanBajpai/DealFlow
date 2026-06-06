@@ -1,69 +1,64 @@
-# LeadCRM — Premium Lead Management CRM & AI Sales Assistant
+# DealFlow - Premium Lead Management CRM and Pipeline Dashboard
 
-LeadCRM is a sleek, modern, and highly interactive Full-Stack Customer Relationship Management (CRM) platform built for small businesses to track, qualify, and convert potential customers. It integrates **Google Gemini AI** to provide automated lead scoring, text summarization, smart call-note builders, and a floating chatbot to query your pipeline.
+DealFlow is a modern, professional, and highly interactive full-stack Customer Relationship Management (CRM) platform designed for businesses to track, qualify, and convert potential customers. It features a streamlined horizontal top navigation bar, a premium Emerald Green and Slate color theme, vertical column charts for analytics, and responsive boards for tasks and schedules.
 
 ---
 
-## 🎨 Interface & Screenshots
+## Interface and Screenshots
 
-### 1. Interactive Dashboard
-The central control panel with visual KPI summaries, live donut charts of lead statuses, a 30-day leads graph, conversion rate metrics, and recent activity logs.
-![LeadCRM Dashboard](images/dashboard.png)
+### 1. Dashboard View
+The central workspace featuring live KPI metrics (Total Leads, New, Contacted, Qualified, Converted, Lost), a 30-day leads column chart, horizontal progress bars for lead status and acquisition channels, upcoming tasks list, and recent activity logs.
+![Dashboard View](images/dashboard.png)
 
 ### 2. Leads Management
-A clean table interface supporting search queries, pagination, inline status selectors, sorting, and tab switches for list views, Kanban boards, and source channels.
+A clean, paginated table view supporting instant search queries, status filters, sorting options, and view switches (List, Kanban, and Lead Source).
 ![Leads View](images/leads.png)
 
-### 3. Add & Edit Lead Modal
-A pop-up form to capture lead fields. For existing leads, it renders the "✨ AI Assistant Insights" panel to score conversion probability and summarize notes.
+### 3. Add and Edit Lead Dialog
+A structured modal interface to register new leads or update existing contact details, company information, status, and manual notes.
 ![Add Lead Modal](images/add_lead.png)
 
 ### 4. Tasks Manager
-A Kanban-style todo list to schedule follow-ups, set priorities, and track productivity metrics across calendar dates.
+A Kanban-style todo board to schedule follow-ups, assign priorities (High, Medium, Low), and track completed vs pending actions.
 ![Tasks View](images/tasks.png)
 
 ### 5. Calendar Scheduler
-A monthly planner to add and view scheduled meetings, calls, and proposals linked to specific day, month, and year values.
+A monthly planner to schedule and coordinate client meetings, calls, and project deadlines across specific dates.
 ![Calendar View](images/calendar.png)
 
-### 6. Reports & Analytics
-A comprehensive metrics page displaying conversion statistics, top performing sales representatives, lead acquisition channels (Website, Referrals, Social Media, Campaigns), and a 30-day Leads Over Time chart.
+### 6. Reports and Analytics
+A dedicated analytics view displaying overall pipeline statistics, sales representative performance, lead distribution by acquisition source (Website, Referral, Social Media, Email Campaign), and monthly acquisition trend charts.
 ![Reports View](images/reports.png)
 
 ### 7. Contacts Directory
-A direct contacts list showing names, companies, and starred items, with interactive call (`tel:`) and email (`mailto:`) links to reach customers instantly.
+A direct contacts list presenting clean user profiles, search tools, starred selections, and active click-to-call or click-to-email options to communicate with clients instantly.
 ![Contacts View](images/contacts.png)
 
 ---
 
-## ⚙️ How It Works (Under the Hood)
+## Technical Stack and Architecture
 
-1. **Frontend Architecture (React + Vite)**:
-   - Built on React 18, the UI is styled with Vanilla CSS using modern styling standards (contrast backgrounds, royal purple gradients, rounded cards, and clean transitions).
-   - Navigation is handled through tab states in `App.jsx`, ensuring fluid page loads without browser refreshes.
-   
-2. **Backend Services (Express + Node.js)**:
-   - A modular MVC-style server running on Express.
-   - All CRUD actions for Leads, Tasks, and Calendar Events are verified with Mongoose schema validation.
-   - History logs and dashboard metrics are gathered using MongoDB aggregate pipelines (e.g., grouping by status, source channels, and lead creation dates for the past 30 days).
+### 1. Frontend
+* React 18
+* Vite
+* Vanilla CSS (responsive grid layout, Slate base theme, Emerald green accents)
+* Lucide React Icons
 
-3. **Gemini AI Engine**:
-   - The backend uses the official `@google/generative-ai` SDK.
-   - When requested, the server sends lead metadata and call notes to the Gemini model (`gemini-1.5-flash`) to generate structured summaries, score conversion probability (0–100) with reasoning, and suggest sales follow-ups.
-   - If a `GEMINI_API_KEY` is not present, the controller falls back to a high-fidelity **Demo AI mode** so all UI features, gauges, and note-copy actions remain testable.
-   - The floating chatbot sends your prompt, chat history, and the entire leads database as context to answer pipeline questions.
+### 2. Backend
+* Node.js and Express MVC architecture
+* RESTful API endpoints for Leads, Tasks, Events, and Activities
 
-4. **Real-time Notifications**:
-   - Simulated background notifications have been removed in favor of real notifications.
-   - Performing CRUD operations (saving leads, completing tasks, scheduling events, importing/exporting CSVs) triggers instant Toast popups and updates the notifications dropdown log.
+### 3. Database
+* MongoDB Community Server
+* Mongoose ODM (Object Document Mapper) for schema validation
 
 ---
 
-## 📂 Project Structure
+## Directory Structure
 
 ```
-LeadCRM/
-├── images/                  # Screenshot folder containing app views
+DealFlow/
+├── images/                  # Screenshots of application views
 │   ├── dashboard.png
 │   ├── leads.png
 │   ├── add_lead.png
@@ -71,83 +66,80 @@ LeadCRM/
 │   ├── calendar.png
 │   ├── reports.png
 │   └── contacts.png
-├── backend/                 # Node.js + Express backend
-│   ├── config/              # Mongoose DB connection setup
-│   ├── controllers/         # MVC controller queries (lead, event, task, AI)
-│   ├── models/              # MongoDB Schema definitions (Lead, Event, Task, Activity)
-│   ├── routes/              # Express Router endpoints (lead, event, task, AI)
-│   ├── .env                 # Environment configuration (PORT, MONGODB_URI, GEMINI_API_KEY)
-│   ├── seed.js              # Database populator script
-│   └── server.js            # Express server entry point
-├── frontend/                # Vite + React frontend
-│   ├── public/              # Static assets
-│   ├── src/                 # React source code
-│   │   ├── assets/          # Icons, vectors
-│   │   ├── components/      # UI Views (Dashboard, LeadsView, TasksView, CalendarView, ReportsView, ContactsView, SettingsView, LeadModal, AIChatWidget, AIPanel)
-│   │   ├── utils/           # API fetch handlers
-│   │   ├── App.jsx          # Root component and navigation state
-│   │   ├── index.css        # Core design system and CSS styling
+├── backend/                 # Node.js + Express backend service
+│   ├── config/              # MongoDB database configuration
+│   ├── controllers/         # MVC controller business logic
+│   ├── models/              # Schema definitions (Lead, Event, Task, Activity)
+│   ├── routes/              # Express Router endpoints
+│   ├── .env                 # Environment configurations
+│   ├── seed.js              # Database populator seed script
+│   └── server.js            # Express application entry point
+├── frontend/                # Vite + React frontend service
+│   ├── public/              # Static files
+│   ├── src/                 # React source files
+│   │   ├── components/      # UI Views (Dashboard, LeadsView, TasksView, CalendarView, ReportsView, ContactsView, SettingsView, LeadModal)
+│   │   ├── utils/           # Backend API call handlers
+│   │   ├── App.jsx          # Navigation state and root layout
+│   │   ├── index.css        # Central stylesheet and layout grid system
 │   │   └── main.jsx         # App mounting entry point
-│   ├── index.html           # HTML container
-│   ├── package.json         # Dependency configuration
-│   └── vite.config.js       # Vite build configuration
-└── .gitignore               # Root git ignore patterns
+│   ├── index.html           # HTML container template
+│   ├── package.json         # Frontend packages and dependencies
+│   └── vite.config.js       # Vite configuration file
+└── .gitignore               # Git exclude rules
 ```
 
 ---
 
-## 🛠️ Step-by-Step Setup Guide
-
-Follow these instructions to run the application from scratch on your local machine:
+## Step-by-Step Local Setup Guide
 
 ### Prerequisites
-* **Node.js** (v18.x.x or higher) installed on your system.
-* **MongoDB Community Server** installed and running on the default port `27017`.
+* Node.js (v18.0.0 or higher) installed on your system.
+* MongoDB Community Server running locally on the default port (27017).
 
----
+### Step 1: Clone or Open the Repository
+Clone the project to your local drive:
+```bash
+git clone https://github.com/MuskanBajpai/DealFlow.git
+cd DealFlow
+```
 
-### Step 1: Clone or Open the Project
-Ensure the project is located on your local drive (e.g. `C:\Users\...\Desktop\leadpro`).
-
-### Step 2: Configure Backend Environment
-1. Open a terminal and navigate to the `backend` folder:
+### Step 2: Configure the Backend Environment
+1. Navigate to the backend folder:
    ```bash
    cd backend
    ```
-2. Install the backend dependencies (including Express, Mongoose, and Google AI SDK):
+2. Install the backend dependencies:
    ```bash
    npm install
    ```
-3. Open or edit the `.env` file inside the `backend` folder and add your configuration:
+3. Create a `.env` file in the root of the `backend` folder and define your variables:
    ```env
    PORT=5000
    MONGODB_URI=mongodb://localhost:27017/leadpro
    NODE_ENV=development
-   GEMINI_API_KEY=your_actual_gemini_api_key_here
    ```
-   *(If you leave `GEMINI_API_KEY` blank or write `your_key_here`, the app will automatically operate in **Demo AI Mode**).*
 
 ### Step 3: Seed the Database
-Populate your MongoDB database with realistic sample leads, tasks, calendar events, and activity logs:
+Populate your local MongoDB instance with initial mock database entries (leads, tasks, events, activities):
 ```bash
 npm run seed
 ```
 
 ### Step 4: Run the Backend Server
-Start the development server with Nodemon (restarts automatically on code changes):
+Start the Express server using nodemon:
 ```bash
 npm run dev
 ```
-The server will start on `http://localhost:5000` and output `MongoDB Connected: localhost`.
+The console will display:
+* `Server running in development mode on port 5000`
+* `MongoDB Connected: localhost`
 
----
-
-### Step 5: Configure & Start Frontend
-1. Open a new, separate terminal and navigate to the `frontend` folder:
+### Step 5: Configure and Run the Frontend
+1. Open a new terminal window and navigate to the frontend folder:
    ```bash
    cd ../frontend
    ```
-2. Install the React and Vite dependencies:
+2. Install the frontend dependencies:
    ```bash
    npm install
    ```
@@ -155,6 +147,53 @@ The server will start on `http://localhost:5000` and output `MongoDB Connected: 
    ```bash
    npm run dev
    ```
-4. Navigate to the local server URL in your browser: **`http://localhost:5173/`**
+4. Open your browser and navigate to: **`http://localhost:5173/`**
 
-Now, you can manage your CRM pipeline, view real-time charts, edit scheduler dates, and use your AI Sales Assistant!
+---
+
+## Production Deployment Guide
+
+Follow these steps to host your database, API server, and web application in production.
+
+### Phase 1: Set Up MongoDB Atlas (Cloud Database)
+MongoDB Atlas offers a free tier (M0) perfect for production hosting.
+1. Log in to your MongoDB Atlas account and create a new project named `DealFlow`.
+2. Click Build a Database, select the M0 Free tier, and choose your preferred cloud provider and regional location.
+3. Under Database Access, create a database user with a secure password and save the credentials.
+4. Under Network Access, add IP Address `0.0.0.0/0` (Allow Access from Anywhere) to permit connections from your cloud-hosted backend.
+5. Retrieve your connection string. It will look like this:
+   `mongodb+srv://<username>:<password>@cluster0.abcde.mongodb.net/?retryWrites=true&w=majority`
+   Replace `<password>` with the password you created for the database user.
+
+### Phase 2: Deploy the Backend (Render)
+1. Log in to Render and select New > Web Service.
+2. Connect your GitHub repository: `https://github.com/MuskanBajpai/DealFlow.git`.
+3. Configure the Web Service settings:
+   * Name: `dealflow-backend`
+   * Root Directory: `backend`
+   * Runtime: `Node`
+   * Build Command: `npm install`
+   * Start Command: `npm start`
+4. Add the following Environment Variables in the Advanced section:
+   * `MONGODB_URI` = (Your MongoDB Atlas connection URI string)
+   * `PORT` = `10000`
+   * `NODE_ENV` = `production`
+5. Click Create Web Service. Once deployment completes, copy the generated service URL (e.g., `https://dealflow-backend.onrender.com`).
+
+### Phase 3: Deploy the Frontend (Render or Vercel)
+1. On Render, select New > Static Site. (On Vercel, select Import Project).
+2. Connect your GitHub repository: `https://github.com/MuskanBajpai/DealFlow.git`.
+3. Configure the frontend settings:
+   * Name: `dealflow-frontend`
+   * Root Directory: `frontend`
+   * Build Command: `npm run build`
+   * Publish Directory: `dist`
+4. Add the following Environment Variable:
+   * `VITE_API_URL` = (Your Backend live URL, e.g., `https://dealflow-backend.onrender.com`)
+5. Click Create Static Site. Once compilation finishes, copy your live frontend URL.
+
+### Phase 4: Finalize Backend CORS Configuration
+1. Go to your Render Dashboard and open the `dealflow-backend` Web Service.
+2. Select Environment from the side menu.
+3. Locate or add the environment variable `FRONTEND_URL` and set its value to your live frontend URL (e.g., `https://dealflow-frontend.onrender.com`).
+4. Save the changes. The backend will redeploy automatically with CORS security configured.

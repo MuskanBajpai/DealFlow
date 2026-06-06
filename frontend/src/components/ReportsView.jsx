@@ -133,65 +133,43 @@ const LeadsOverTimeChart = ({ history }) => {
           );
         })}
 
-        {/* Area fill */}
-        {hasData && (
-          <defs>
-            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.18" />
-              <stop offset="100%" stopColor="var(--primary)" stopOpacity="0.01" />
-            </linearGradient>
-          </defs>
-        )}
-        {hasData && areaD && <path d={areaD} fill="url(#areaGrad)" />}
+        {/* Gradients */}
+        <defs>
+          <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.18" />
+            <stop offset="100%" stopColor="var(--primary)" stopOpacity="0.01" />
+          </linearGradient>
+        </defs>
 
-        {/* Line */}
-        <path
-          d={pathD}
-          fill="none"
-          stroke="var(--primary)"
-          strokeWidth="2.5"
-          strokeLinejoin="round"
-          strokeLinecap="round"
-        />
-
-        {/* Data points */}
+        {/* Vertical Column Bars */}
         {pts.map((p, i) => {
+          const barWidth = 6;
+          const barHeight = Math.max(0, H - PAD - p.y);
           const isHovered = hovered && hovered.label === p.label;
           return (
             <g key={i}>
-              {/* Hover hit area */}
-              <circle
-                cx={p.x.toFixed(1)}
-                cy={p.y.toFixed(1)}
-                r="12"
+              <rect
+                x={p.x - barWidth / 2}
+                y={p.y}
+                width={barWidth}
+                height={barHeight}
+                fill={isHovered ? "var(--primary)" : "url(#areaGrad)"}
+                stroke="var(--primary)"
+                strokeWidth={isHovered ? "1.5" : "1"}
+                rx="1.5"
+                style={{ transition: 'all 0.1s' }}
+              />
+              {/* Invisible large hit area */}
+              <rect
+                x={p.x - 4}
+                y={PAD}
+                width={8}
+                height={H - 2 * PAD}
                 fill="transparent"
                 style={{ cursor: 'pointer' }}
                 onMouseEnter={() => setHovered(p)}
                 onMouseLeave={() => setHovered(null)}
               />
-              {/* Visible dot */}
-              <circle
-                cx={p.x.toFixed(1)}
-                cy={p.y.toFixed(1)}
-                r={isHovered ? '6' : '4'}
-                fill={isHovered ? 'var(--primary)' : '#fff'}
-                stroke="var(--primary)"
-                strokeWidth="2.5"
-                style={{ transition: 'r 0.1s, fill 0.1s', pointerEvents: 'none' }}
-              />
-              {/* Vertical hover line */}
-              {isHovered && (
-                <line
-                  x1={p.x.toFixed(1)}
-                  y1={p.y.toFixed(1)}
-                  x2={p.x.toFixed(1)}
-                  y2={(H - PAD).toFixed(1)}
-                  stroke="var(--primary)"
-                  strokeWidth="1"
-                  strokeDasharray="3 2"
-                  opacity="0.4"
-                />
-              )}
             </g>
           );
         })}
@@ -386,12 +364,12 @@ const ReportsView = ({ stats = {}, leads = [] }) => {
       {/* ── KPI Cards ── */}
       <div className="reports-kpi-row">
         {[
-          { icon: <Users size={14} />, cls: 'purple', title: 'Total Leads', val: total, trend: '↑ 18.6%' },
-          { icon: <TrendingUp size={14} />, cls: 'success', title: 'Conversion Rate', val: `${conversionRate}%`, trend: '↑ 2.6%' },
-          { icon: <DollarSign size={14} />, cls: 'warning', title: 'Revenue Generated', val: `$${dynamicRevenue.toLocaleString()}`, trend: '↑ 12.0%' },
-          { icon: <ShoppingBag size={14} />, cls: 'pink', title: 'Avg. Deal Size', val: `$${dynamicAvgDealSize.toLocaleString()}`, trend: '↑ 8.3%' },
+          { icon: <Users size={14} />, cls: 'purple', title: 'Total Leads', val: total, trend: '↑ 18.6%', border: 'var(--primary)' },
+          { icon: <TrendingUp size={14} />, cls: 'success', title: 'Conversion Rate', val: `${conversionRate}%`, trend: '↑ 2.6%', border: 'var(--success)' },
+          { icon: <DollarSign size={14} />, cls: 'warning', title: 'Revenue Generated', val: `$${dynamicRevenue.toLocaleString()}`, trend: '↑ 12.0%', border: 'var(--warning)' },
+          { icon: <ShoppingBag size={14} />, cls: 'pink', title: 'Avg. Deal Size', val: `$${dynamicAvgDealSize.toLocaleString()}`, trend: '↑ 8.3%', border: 'var(--pink)' },
         ].map((kpi) => (
-          <div className="kpi-card" key={kpi.title}>
+          <div className="kpi-card" key={kpi.title} style={{ borderLeft: `4px solid ${kpi.border}` }}>
             <div className="kpi-header">
               <div className={`kpi-icon-container ${kpi.cls}`}>{kpi.icon}</div>
               <span className="kpi-title">{kpi.title}</span>
@@ -399,7 +377,7 @@ const ReportsView = ({ stats = {}, leads = [] }) => {
             <span className="kpi-value">{kpi.val}</span>
             <span className="kpi-trend up">
               {kpi.trend}{' '}
-              <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span>
+              <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span>
             </span>
           </div>
         ))}
@@ -433,54 +411,33 @@ const ReportsView = ({ stats = {}, leads = [] }) => {
           <div className="panel-header">
             <h3 className="panel-title">Leads by Source</h3>
           </div>
-          <div className="donut-widget" style={{ flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-            <div className="donut-chart-container" style={{ width: '120px', height: '120px' }}>
-              <svg width="120" height="120" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r={r} fill="transparent" stroke="#F1F5F9" strokeWidth="12" />
-                {donutSlices.map((s, i) => (
-                  <circle
-                    key={i}
-                    cx="50"
-                    cy="50"
-                    r={r}
-                    fill="transparent"
-                    stroke={s.color}
-                    strokeWidth={hoveredSource?.label === s.label ? '14' : '12'}
-                    strokeDasharray={s.dashArr}
-                    strokeDashoffset={s.dashOff}
-                    transform="rotate(-90 50 50)"
-                    style={{ cursor: 'pointer', transition: 'stroke-width 0.15s' }}
-                    onMouseEnter={() => setHoveredSource(s)}
-                    onMouseLeave={() => setHoveredSource(null)}
-                  />
-                ))}
-              </svg>
-              <div className="donut-center-text">
-                <span className="donut-center-val" style={{ fontSize: '1rem' }}>
-                  {hoveredSource ? `${Math.round(hoveredSource.pct * 100)}%` : total}
-                </span>
-                <span className="donut-center-lbl" style={{ fontSize: '0.55rem' }}>
-                  {hoveredSource ? hoveredSource.label : 'Total'}
-                </span>
-              </div>
-            </div>
-            <div className="donut-legend" style={{ width: '100%' }}>
-              {[
-                { dot: 'purple',  label: 'Website',  val: `${srcWebsite}%` },
-                { dot: 'pink',    label: 'Referral', val: `${srcReferral}%` },
-                { dot: 'warning', label: 'Social',   val: `${srcSocial}%` },
-                { dot: 'success', label: 'Campaign', val: `${srcCampaign}%` },
-                { dot: 'danger',  label: 'Others',   val: `${srcOthers}%` },
-              ].map((row) => (
-                <div className="legend-item" key={row.label}>
-                  <span className="legend-label-col">
-                    <span className={`legend-dot ${row.dot}`} />
-                    {row.label}
-                  </span>
-                  <span className="legend-value-col">{row.val}</span>
+          <div className="status-progress-bars" style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', width: '100%', padding: '0.5rem 0' }}>
+            {[
+              { label: 'Website',  val: srcWebsite,  colorKey: 'purple' },
+              { label: 'Referral', val: srcReferral, colorKey: 'pink' },
+              { label: 'Social',   val: srcSocial,   colorKey: 'warning' },
+              { label: 'Campaign', val: srcCampaign, colorKey: 'success' },
+              { label: 'Others',   val: srcOthers,   colorKey: 'danger' },
+            ].map((row) => (
+              <div key={row.label} className="status-progress-item">
+                <div className="status-progress-info" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '0.25rem', fontWeight: 500 }}>
+                  <span className="status-progress-label" style={{ color: 'var(--text-main)' }}>{row.label}</span>
+                  <span className="status-progress-val" style={{ color: 'var(--text-muted)' }}>{row.val}%</span>
                 </div>
-              ))}
-            </div>
+                <div className="status-progress-track" style={{ height: '8px', backgroundColor: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
+                  <div 
+                    className={`status-progress-fill`} 
+                    style={{ 
+                      height: '100%',
+                      width: `${row.val}%`, 
+                      backgroundColor: `var(--${row.colorKey})`,
+                      borderRadius: '4px',
+                      transition: 'width 0.3s ease'
+                    }} 
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

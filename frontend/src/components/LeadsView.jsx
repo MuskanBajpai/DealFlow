@@ -105,50 +105,50 @@ const LeadsView = ({
       </div>
 
       {/* KPI row */}
-      <div className="kpi-row">
-        <div className="kpi-card">
+      <div className="kpi-row" style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--primary)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container purple"><Users size={14} /></div>
             <span className="kpi-title">Total Leads</span>
           </div>
           <span className="kpi-value">{total}</span>
-          <span className="kpi-trend up">↑ 18.6% <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span></span>
+          <span className="kpi-trend up">↑ 18.6% <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span></span>
         </div>
 
-        <div className="kpi-card">
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--pink)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container pink"><Plus size={14} /></div>
             <span className="kpi-title">New Leads</span>
           </div>
           <span className="kpi-value">{byStatus.New || 0}</span>
-          <span className="kpi-trend up">↑ 12.3% <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span></span>
+          <span className="kpi-trend up">↑ 12.3% <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span></span>
         </div>
 
-        <div className="kpi-card">
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--warning)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container warning"><PhoneCallFallback size={14} /></div>
             <span className="kpi-title">Qualified</span>
           </div>
           <span className="kpi-value">{byStatus.Qualified || 0}</span>
-          <span className="kpi-trend up">↑ 10.2% <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span></span>
+          <span className="kpi-trend up">↑ 10.2% <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span></span>
         </div>
 
-        <div className="kpi-card">
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--success)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container success"><CheckCircle size={14} /></div>
             <span className="kpi-title">Converted</span>
           </div>
           <span className="kpi-value">{byStatus.Converted || 0}</span>
-          <span className="kpi-trend up">↑ 20.8% <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span></span>
+          <span className="kpi-trend up">↑ 20.8% <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span></span>
         </div>
 
-        <div className="kpi-card">
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--danger)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container danger"><AlertCircle size={14} /></div>
             <span className="kpi-title">Lost</span>
           </div>
           <span className="kpi-value">{byStatus.Lost || 0}</span>
-          <span className="kpi-trend down">↓ 6.4% <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span></span>
+          <span className="kpi-trend down">↓ 6.4% <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span></span>
         </div>
       </div>
 

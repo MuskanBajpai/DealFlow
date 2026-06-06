@@ -44,7 +44,8 @@ const Dashboard = ({
   stats,
   tasks = [],
   onImportCSV,
-  onExportCSV
+  onExportCSV,
+  adminName
 }) => {
   const { total = 0, byStatus = {}, bySource = {}, conversionRate = 0, history = [], activities = [] } = stats || {};
 
@@ -203,7 +204,7 @@ const Dashboard = ({
       {/* Greeting Header */}
       <div className="greeting-row">
         <div className="greeting-text">
-          <h2>Good Morning, Alen! 👋</h2>
+          <h2>Good Morning, {adminName || 'Jayesh'}</h2>
           <p>Here's what's happening with your leads today.</p>
         </div>
         <button className="btn btn-primary" onClick={onAddLead}>
@@ -214,7 +215,7 @@ const Dashboard = ({
 
       {/* 6-Column KPI Grid */}
       <div className="kpi-row">
-        <div className="kpi-card">
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--primary)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container purple"><Users size={14} /></div>
             <span className="kpi-title">Total Leads</span>
@@ -222,16 +223,11 @@ const Dashboard = ({
           <span className="kpi-value">{total}</span>
           <span className="kpi-trend up">
             <span>↑ 18.6%</span>
-            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span>
+            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span>
           </span>
-          <div className="kpi-sparkline-container">
-            <svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none">
-              <path d={sparklines.total} fill="none" stroke="var(--primary)" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
         </div>
 
-        <div className="kpi-card">
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--pink)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container pink"><Plus size={14} /></div>
             <span className="kpi-title">New Leads</span>
@@ -239,16 +235,11 @@ const Dashboard = ({
           <span className="kpi-value">{byStatus.New || 0}</span>
           <span className="kpi-trend up">
             <span>↑ 12.3%</span>
-            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span>
+            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span>
           </span>
-          <div className="kpi-sparkline-container">
-            <svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none">
-              <path d={sparklines.new} fill="none" stroke="var(--pink)" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
         </div>
 
-        <div className="kpi-card">
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--warning)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container warning"><PhoneCall size={14} /></div>
             <span className="kpi-title">Contacted</span>
@@ -256,16 +247,11 @@ const Dashboard = ({
           <span className="kpi-value">{byStatus.Contacted || 0}</span>
           <span className="kpi-trend up">
             <span>↑ 15.9%</span>
-            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span>
+            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span>
           </span>
-          <div className="kpi-sparkline-container">
-            <svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none">
-              <path d={sparklines.contacted} fill="none" stroke="var(--warning)" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
         </div>
 
-        <div className="kpi-card">
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--success)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container success"><CheckCircle size={14} /></div>
             <span className="kpi-title">Qualified</span>
@@ -273,16 +259,11 @@ const Dashboard = ({
           <span className="kpi-value">{byStatus.Qualified || 0}</span>
           <span className="kpi-trend up">
             <span>↑ 10.2%</span>
-            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span>
+            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span>
           </span>
-          <div className="kpi-sparkline-container">
-            <svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none">
-              <path d={sparklines.qualified} fill="none" stroke="var(--success)" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
         </div>
 
-        <div className="kpi-card">
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--primary)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container purple"><CheckCircle size={14} /></div>
             <span className="kpi-title">Converted</span>
@@ -290,16 +271,11 @@ const Dashboard = ({
           <span className="kpi-value">{byStatus.Converted || 0}</span>
           <span className="kpi-trend up">
             <span>↑ 20.8%</span>
-            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span>
+            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span>
           </span>
-          <div className="kpi-sparkline-container">
-            <svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none">
-              <path d={sparklines.converted} fill="none" stroke="var(--primary)" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
         </div>
 
-        <div className="kpi-card">
+        <div className="kpi-card" style={{ borderLeft: '4px solid var(--danger)' }}>
           <div className="kpi-header">
             <div className="kpi-icon-container danger"><AlertCircle size={14} /></div>
             <span className="kpi-title">Lost</span>
@@ -307,13 +283,8 @@ const Dashboard = ({
           <span className="kpi-value">{byStatus.Lost || 0}</span>
           <span className="kpi-trend down">
             <span>↓ 6.4%</span>
-            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>from last month</span>
+            <span style={{ color: 'var(--text-light)', fontWeight: 500 }}>vs last month</span>
           </span>
-          <div className="kpi-sparkline-container">
-            <svg viewBox="0 0 100 30" width="100%" height="30" preserveAspectRatio="none">
-              <path d={sparklines.lost} fill="none" stroke="var(--danger)" strokeWidth="2.5" strokeLinecap="round" />
-            </svg>
-          </div>
         </div>
       </div>
 
@@ -324,59 +295,44 @@ const Dashboard = ({
           <div className="panel-header">
             <h3 className="panel-title">Leads Overview</h3>
           </div>
-          <div className="donut-widget">
-            <div className="donut-chart-container">
-              <svg width="120" height="120" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="40" fill="transparent" stroke="#F1F5F9" strokeWidth="11" />
-                {donutSlices.map((slice, i) => (
-                  <circle
-                    key={i}
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    fill="transparent"
-                    stroke={`var(--${slice.colorKey})`}
-                    strokeWidth={hoveredSlice && hoveredSlice.label === slice.label ? "13" : "11"}
-                    strokeDasharray={slice.strokeDasharray}
-                    strokeDashoffset={slice.strokeDashoffset}
-                    transform="rotate(-90 50 50)"
-                    style={{ cursor: 'pointer', transition: 'all 0.15s' }}
-                    onMouseEnter={() => setHoveredSlice(slice)}
-                    onMouseLeave={() => setHoveredSlice(null)}
-                    onClick={() => setStatusFilter(slice.label === statusFilter ? 'All' : slice.label)}
-                  />
-                ))}
-              </svg>
-              <div className="donut-center-text">
-                <span className="donut-center-val">{hoveredSlice ? hoveredSlice.count : total}</span>
-                <span className="donut-center-lbl">{hoveredSlice ? hoveredSlice.label : 'Total'}</span>
-              </div>
+          <div className="status-grid-widget" style={{ padding: '0.5rem 0' }}>
+            <div className="total-leads-summary" style={{ marginBottom: '1.25rem', display: 'flex', flexDirection: 'column' }}>
+              <span style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--primary)' }}>{total}</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}>Total Active CRM Leads</span>
             </div>
-
-            <div className="donut-legend">
-              {statuses.map((st, i) => (
-                <div 
-                  key={i} 
-                  className="legend-item" 
-                  style={{ 
-                    cursor: 'pointer', 
-                    opacity: hoveredSlice && hoveredSlice.label !== st.label ? 0.6 : 1,
-                    transform: hoveredSlice && hoveredSlice.label === st.label ? 'translateX(4px)' : 'none',
-                    transition: 'all 0.15s'
-                  }}
-                  onMouseEnter={() => setHoveredSlice(st)}
-                  onMouseLeave={() => setHoveredSlice(null)}
-                  onClick={() => setStatusFilter(st.label === statusFilter ? 'All' : st.label)}
-                >
-                  <div className="legend-label-col">
-                    <span className={`legend-dot ${st.colorKey}`} />
-                    <span style={{ fontWeight: statusFilter === st.label ? 800 : 500 }}>{st.label}</span>
+            <div className="status-progress-bars" style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              {statuses.map((st, i) => {
+                const percentage = total > 0 ? ((st.count / total) * 100).toFixed(0) : 0;
+                return (
+                  <div 
+                    key={i} 
+                    className="status-progress-item"
+                    onClick={() => setStatusFilter(st.label === statusFilter ? 'All' : st.label)}
+                    style={{ 
+                      cursor: 'pointer', 
+                      opacity: statusFilter !== 'All' && statusFilter !== st.label ? 0.45 : 1,
+                      transition: 'all 0.15s'
+                    }}
+                  >
+                    <div className="status-progress-info" style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '0.25rem', fontWeight: 500 }}>
+                      <span className="status-progress-label" style={{ color: 'var(--text-main)' }}>{st.label}</span>
+                      <span className="status-progress-val" style={{ color: 'var(--text-muted)' }}>{st.count} ({percentage}%)</span>
+                    </div>
+                    <div className="status-progress-track" style={{ height: '8px', backgroundColor: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
+                      <div 
+                        className={`status-progress-fill`} 
+                        style={{ 
+                          height: '100%',
+                          width: `${percentage}%`, 
+                          backgroundColor: `var(--${st.colorKey})`,
+                          borderRadius: '4px',
+                          transition: 'width 0.3s ease'
+                        }} 
+                      />
+                    </div>
                   </div>
-                  <span className="legend-value-col">
-                    {st.count} ({total > 0 ? Math.round(st.pct * 100) : 0}%)
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -439,37 +395,37 @@ const Dashboard = ({
                 </linearGradient>
               </defs>
 
-              {points.length > 0 && (
-                <>
-                  <path d={areaPathD} fill="url(#chartGradient)" />
-                  <path d={linePathD} fill="none" stroke="var(--primary)" strokeWidth="2.5" strokeLinecap="round" />
-                </>
-              )}
-
-              {points.map((p, i) => (
-                <g key={i}>
-                  {hoveredPoint && hoveredPoint.dateStr === p.dateStr && (
-                    <line
-                      x1={p.x} y1={10}
-                      x2={p.x} y2={110}
-                      stroke="var(--primary)" strokeWidth="1" strokeDasharray="2 2"
+              {points.map((p, i) => {
+                const barWidth = 6;
+                const barHeight = Math.max(0, 110 - p.y);
+                const isHovered = hoveredPoint && hoveredPoint.dateStr === p.dateStr;
+                return (
+                  <g key={i}>
+                    <rect
+                      x={p.x - barWidth / 2}
+                      y={p.y}
+                      width={barWidth}
+                      height={barHeight}
+                      fill={isHovered ? "var(--primary)" : "url(#chartGradient)"}
+                      stroke="var(--primary)"
+                      strokeWidth={isHovered ? "1.5" : "1"}
+                      rx="1.5"
+                      style={{ transition: 'all 0.1s' }}
                     />
-                  )}
-                  {/* Invisible large hit area */}
-                  <circle cx={p.x} cy={p.y} r="12" fill="transparent" style={{ cursor: 'pointer' }}
-                    onMouseEnter={() => setHoveredPoint(p)}
-                    onMouseLeave={() => setHoveredPoint(null)}
-                  />
-                  {/* Visible dot */}
-                  <circle
-                    cx={p.x} cy={p.y}
-                    r={hoveredPoint && hoveredPoint.dateStr === p.dateStr ? '5' : '3.5'}
-                    fill={hoveredPoint && hoveredPoint.dateStr === p.dateStr ? 'var(--primary)' : '#FFFFFF'}
-                    stroke="var(--primary)" strokeWidth="2"
-                    style={{ pointerEvents: 'none', transition: 'all 0.1s' }}
-                  />
-                </g>
-              ))}
+                    {/* Invisible large hit area */}
+                    <rect
+                      x={p.x - 5}
+                      y={10}
+                      width={10}
+                      height={100}
+                      fill="transparent"
+                      style={{ cursor: 'pointer' }}
+                      onMouseEnter={() => setHoveredPoint(p)}
+                      onMouseLeave={() => setHoveredPoint(null)}
+                    />
+                  </g>
+                );
+              })}
             </svg>
 
             {/* X-axis date labels */}
@@ -523,37 +479,6 @@ const Dashboard = ({
           </div>
         </div>
 
-        {/* Dynamic Conversion Rate Gauge */}
-        <div className="card-panel">
-          <div className="panel-header">
-            <h3 className="panel-title">Conversion Rate</h3>
-          </div>
-          <div className="gauge-widget">
-            <div className="gauge-chart-container">
-              <svg width="110" height="70" viewBox="0 0 100 55">
-                <path d="M 15 50 A 35 35 0 0 1 85 50" fill="none" stroke="#F1F5F9" strokeWidth="9" strokeLinecap="round" />
-                <path 
-                  d="M 15 50 A 35 35 0 0 1 85 50" 
-                  fill="none" 
-                  stroke="var(--primary)" 
-                  strokeWidth="9" 
-                  strokeLinecap="round"
-                  strokeDasharray="110"
-                  strokeDashoffset={110 - (110 * conversionRate) / 100}
-                />
-              </svg>
-              <div className="gauge-center-text">
-                <span className="gauge-center-val">{conversionRate}%</span>
-                <span className="gauge-center-lbl">Overall Conversion</span>
-              </div>
-            </div>
-            <span className="gauge-trend-label">
-              <span>↑ 2.6%</span>
-              <span style={{ color: 'var(--text-light)', fontWeight: 500, marginLeft: '2px' }}>from last month</span>
-            </span>
-          </div>
-        </div>
-
         {/* Dynamic Recent Activity Timeline */}
         <div className="card-panel">
           <div className="panel-header">
@@ -571,38 +496,6 @@ const Dashboard = ({
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Quick Actions Card */}
-        <div className="card-panel">
-          <div className="panel-header">
-            <h3 className="panel-title">Quick Actions</h3>
-          </div>
-          <div className="quick-actions-grid">
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              accept=".csv" 
-              style={{ display: 'none' }} 
-              onChange={handleFileChange} 
-            />
-            <button className="quick-action-btn purple" onClick={onAddLead}>
-              <UserPlus size={16} />
-              <span className="quick-action-title">Add New Lead</span>
-            </button>
-            <button className="quick-action-btn red" onClick={handleImportClick}>
-              <Upload size={16} />
-              <span className="quick-action-title">Import Leads</span>
-            </button>
-            <button className="quick-action-btn yellow" onClick={onExportCSV}>
-              <Download size={16} />
-              <span className="quick-action-title">Export Leads</span>
-            </button>
-            <button className="quick-action-btn green" onClick={() => alert('Exporting leads data to CSV...')}>
-              <BarChart4 size={16} />
-              <span className="quick-action-title">Export CSV</span>
-            </button>
           </div>
         </div>
       </div>

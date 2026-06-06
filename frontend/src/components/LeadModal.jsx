@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
-import AIPanel from './AIPanel';
 
 const LeadModal = ({ lead, onClose, onSave }) => {
   const isEdit = !!lead;
@@ -210,19 +209,7 @@ const LeadModal = ({ lead, onClose, onSave }) => {
                 />
               </div>
 
-              {isEdit && (
-                <div className="form-grid-full">
-                  <AIPanel 
-                    lead={lead} 
-                    onNotesUpdate={(newNotes) => {
-                      setFormData(prev => ({
-                        ...prev,
-                        notes: prev.notes ? `${prev.notes}\n\n${newNotes}` : newNotes
-                      }));
-                    }}
-                  />
-                </div>
-              )}
+
             </div>
           </div>
 

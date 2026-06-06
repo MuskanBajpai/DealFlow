@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, Search, Bell, ChevronDown, X } from 'lucide-react';
-import Sidebar from './components/Sidebar';
+import { Menu, Search, Bell, ChevronDown, X, LayoutDashboard, Users, UserPlus, CheckSquare, Calendar as CalendarIcon, BarChart3, Contact, Settings as SettingsIcon } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import LeadsView from './components/LeadsView';
 import TasksView from './components/TasksView';
@@ -10,7 +9,6 @@ import ContactsView from './components/ContactsView';
 import SettingsView from './components/SettingsView';
 import LeadModal from './components/LeadModal';
 import Toast from './components/Toast';
-import AIChatWidget from './components/AIChatWidget';
 import { 
   getLeads, 
   createLead, 
@@ -34,11 +32,22 @@ const App = () => {
   const [selectedLead, setSelectedLead] = useState(null);
   const [toasts, setToasts] = useState([]);
 
+  // Dynamically load profile name
+  const [profileName, setProfileName] = useState(() => {
+    try {
+      const saved = localStorage.getItem('crm_profile_settings');
+      if (saved) {
+        return JSON.parse(saved).name || 'Jayesh Sharma';
+      }
+    } catch (e) {}
+    return 'Jayesh Sharma';
+  });
+
   // Notification log state (persisted to localStorage)
   const [notifications, setNotifications] = useState(() => {
     const saved = localStorage.getItem('leadcrm_notifications');
     return saved ? JSON.parse(saved) : [
-      { id: 1, message: 'Welcome to LeadCRM! Connect your dashboard to get started.', time: '10 mins ago', read: false },
+      { id: 1, message: 'Welcome to DealFlow! Connect your dashboard to get started.', time: '10 mins ago', read: false },
       { id: 2, message: 'System update: Real-time database synchronizations enabled.', time: '1 hour ago', read: true }
     ];
   });
@@ -478,6 +487,7 @@ const App = () => {
             leads={leads}
             totalLeads={totalLeads}
             currentPage={currentPage}
+            adminName={profileName}
             totalPages={totalPages}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -557,6 +567,7 @@ const App = () => {
             leads={leads}
             totalLeads={totalLeads}
             currentPage={currentPage}
+            adminName={profileName}
             totalPages={totalPages}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -580,123 +591,65 @@ const App = () => {
     }
   };
 
+  const navItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={14} /> },
+    { id: 'leads', label: 'Leads', icon: <Users size={14} /> },
+    { id: 'add-lead', label: 'Add Lead', icon: <UserPlus size={14} /> },
+    { id: 'tasks', label: 'Tasks', icon: <CheckSquare size={14} /> },
+    { id: 'calendar', label: 'Calendar', icon: <CalendarIcon size={14} /> },
+    { id: 'reports', label: 'Reports', icon: <BarChart3 size={14} /> },
+    { id: 'contacts', label: 'Contacts', icon: <Contact size={14} /> },
+    { id: 'settings', label: 'Settings', icon: <SettingsIcon size={14} /> }
+  ];
+
   return (
     <div className="app-container">
-      {/* Mobile Top Navbar Header */}
-      <header className="mobile-header">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <div className="sidebar-logo" style={{ width: '32px', height: '32px', fontSize: '1rem' }}>LP</div>
-          <span className="sidebar-title" style={{ fontSize: '1.1rem' }}>LeadCRM</span>
-        </div>
-        <button className="menu-btn" onClick={() => setMobileOpen(!mobileOpen)}>
-          <Menu size={24} />
-        </button>
-      </header>
-
-      {/* Main Persistent Sidebar Drawer */}
-      <Sidebar 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
-        mobileOpen={mobileOpen}
-        setMobileOpen={setMobileOpen}
-        onAddLead={handleTriggerAdd}
-      />
-
-      {/* Persistent Top Header Navigator */}
-      <div className="top-header">
-        <div className="header-search" style={{ position: 'relative' }}>
-          <Search size={16} className="header-search-icon" />
-          <input 
-            type="text" 
-            className="header-search-input"
-            placeholder="Search leads by name, email or company..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          {searchQuery && (
-            <button 
-              onClick={() => setSearchQuery('')}
-              style={{
-                position: 'absolute',
-                right: '10px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                color: 'var(--text-muted)',
-                padding: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              ✕
-            </button>
-          )}
-        </div>
-
-        <div className="header-actions">
-          {/* Bell + Notification Dropdown wrapper */}
-          <div ref={notifRef} style={{ position: 'relative' }}>
-            <button 
-              className="notification-bell-btn" 
-              onClick={() => setShowNotificationDropdown(!showNotificationDropdown)}
-            >
-              <Bell size={18} />
-              {notifications.filter(n => !n.read).length > 0 && (
-                <span className="notification-badge">
-                  {notifications.filter(n => !n.read).length}
-                </span>
-              )}
-            </button>
-
-            {showNotificationDropdown && (
-              <div className="notification-dropdown">
-                <div className="notif-dropdown-header">
-                  <h4>Notifications</h4>
-                  <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                    <button onClick={handleMarkAllAsRead}>Mark all read</button>
-                    <button onClick={() => setShowNotificationDropdown(false)} style={{ color: 'var(--text-muted)' }}><X size={14} /></button>
-                  </div>
-                </div>
-                <div className="notif-dropdown-body">
-                  {notifications.length > 0 ? (
-                    notifications.map(n => (
-                      <div 
-                        key={n.id} 
-                        className={`notif-item ${!n.read ? 'unread' : ''}`}
-                        onClick={() => handleMarkSingleRead(n.id)}
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <p style={{ margin: 0, fontWeight: !n.read ? 700 : 500 }}>{n.message}</p>
-                        <span>{n.time}</span>
-                      </div>
-                    ))
-                  ) : (
-                    <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-light)', fontSize: '0.75rem' }}>
-                      No notifications yet
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+      {/* Horizontal Navbar */}
+      <nav className="navbar">
+        <div className="navbar-brand" onClick={() => setActiveTab('dashboard')}>
+          <div className="navbar-logo">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="3">
+              <path d="M12 2a10 10 0 1 0 10 10" strokeLinecap="round" />
+              <path d="M12 6a6 6 0 1 0 6 6" strokeLinecap="round" />
+            </svg>
           </div>
-          
+          <span className="navbar-title">DealFlow</span>
+        </div>
+
+        <div className="navbar-nav">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => {
+                if (item.id === 'add-lead') {
+                  handleTriggerAdd();
+                } else {
+                  setActiveTab(item.id);
+                }
+              }}
+              className={`navbar-link ${activeTab === item.id ? 'active' : ''}`}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="navbar-right">
           <div className="header-profile" onClick={() => setActiveTab('settings')}>
             <img 
               src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150" 
-              alt="Alen Miller" 
+              alt="Jayesh Sharma" 
               className="header-avatar"
             />
             <div className="header-profile-info">
-              <span className="header-profile-name">Alen Miller</span>
+              <span className="header-profile-name">{profileName}</span>
               <span className="header-profile-role">Admin</span>
             </div>
             <ChevronDown size={14} className="header-profile-chevron" />
           </div>
         </div>
-      </div>
+      </nav>
 
       {/* Primary Work Space Pane */}
       <main className="main-content">
@@ -727,9 +680,6 @@ const App = () => {
           />
         ))}
       </div>
-
-      {/* Floating AI Chatbot Widget */}
-      <AIChatWidget />
     </div>
   );
 };
