@@ -8,31 +8,31 @@ DealFlow is a modern, professional, and highly interactive full-stack Customer R
 
 ### 1. Dashboard View
 The central workspace featuring live KPI metrics (Total Leads, New, Contacted, Qualified, Converted, Lost), a 30-day leads column chart, horizontal progress bars for lead status and acquisition channels, upcoming tasks list, and recent activity logs.
-![Dashboard View](images/dashboard.png)
+![Dashboard View](images/dashboard_v2.png)
 
 ### 2. Leads Management
 A clean, paginated table view supporting instant search queries, status filters, sorting options, and view switches (List, Kanban, and Lead Source).
-![Leads View](images/leads.png)
+![Leads View](images/leads_v2.png)
 
 ### 3. Add and Edit Lead Dialog
 A structured modal interface to register new leads or update existing contact details, company information, status, and manual notes.
-![Add Lead Modal](images/add_lead.png)
+![Add Lead Modal](images/add_lead_v2.png)
 
 ### 4. Tasks Manager
 A Kanban-style todo board to schedule follow-ups, assign priorities (High, Medium, Low), and track completed vs pending actions.
-![Tasks View](images/tasks.png)
+![Tasks View](images/tasks_v2.png)
 
 ### 5. Calendar Scheduler
 A monthly planner to schedule and coordinate client meetings, calls, and project deadlines across specific dates.
-![Calendar View](images/calendar.png)
+![Calendar View](images/calendar_v2.png)
 
 ### 6. Reports and Analytics
 A dedicated analytics view displaying overall pipeline statistics, sales representative performance, lead distribution by acquisition source (Website, Referral, Social Media, Email Campaign), and monthly acquisition trend charts.
-![Reports View](images/reports.png)
+![Reports View](images/reports_v2.png)
 
 ### 7. Contacts Directory
 A direct contacts list presenting clean user profiles, search tools, starred selections, and active click-to-call or click-to-email options to communicate with clients instantly.
-![Contacts View](images/contacts.png)
+![Contacts View](images/contacts_v2.png)
 
 ---
 
@@ -59,13 +59,13 @@ A direct contacts list presenting clean user profiles, search tools, starred sel
 ```
 DealFlow/
 ├── images/                  # Screenshots of application views
-│   ├── dashboard.png
-│   ├── leads.png
-│   ├── add_lead.png
-│   ├── tasks.png
-│   ├── calendar.png
-│   ├── reports.png
-│   └── contacts.png
+│   ├── dashboard_v2.png
+│   ├── leads_v2.png
+│   ├── add_lead_v2.png
+│   ├── tasks_v2.png
+│   ├── calendar_v2.png
+│   ├── reports_v2.png
+│   └── contacts_v2.png
 ├── backend/                 # Node.js + Express backend service
 │   ├── config/              # MongoDB database configuration
 │   ├── controllers/         # MVC controller business logic
