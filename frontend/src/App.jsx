@@ -67,14 +67,13 @@ const App = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showNotificationDropdown]);
 
-  // Toast notifier helper — defined first so addNotification can use it
+  // Toast notifications disabled completely per user request
   const addToast = (message, type = 'success') => {
-    const id = Date.now();
-    setToasts(prev => [...prev, { id, message, type }]);
+    // No-op: Toasts are disabled
   };
 
   const removeToast = (id) => {
-    setToasts(prev => prev.filter(t => t.id !== id));
+    // No-op: Toasts are disabled
   };
 
   // Add notification to log history
@@ -667,18 +666,6 @@ const App = () => {
         />
       )}
 
-      {/* Notification Toast Stream */}
-      <div className="toast-container">
-        {toasts.map(toast => (
-          <Toast 
-            key={toast.id}
-            message={toast.message}
-            type={toast.type}
-            duration={5000}
-            onClose={() => removeToast(toast.id)}
-          />
-        ))}
-      </div>
     </div>
   );
 };
