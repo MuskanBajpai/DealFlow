@@ -1,4 +1,10 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+let API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+// Remove trailing slash if present to prevent double slashes (e.g. //api/leads)
+if (API_BASE.endsWith('/')) {
+  API_BASE = API_BASE.slice(0, -1);
+}
+
 const LEADS_URL = `${API_BASE}/api/leads`;
 const TASKS_URL = `${API_BASE}/api/tasks`;
 const EVENTS_URL = `${API_BASE}/api/events`;
