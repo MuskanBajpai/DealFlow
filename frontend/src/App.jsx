@@ -77,7 +77,7 @@ const App = () => {
     setToasts(prev => prev.filter(t => t.id !== id));
   };
 
-  // Add notification & trigger 5-second popup toast
+  // Add notification to log history
   const addNotification = (message) => {
     const newNotif = {
       id: Date.now(),
@@ -90,7 +90,6 @@ const App = () => {
       localStorage.setItem('leadcrm_notifications', JSON.stringify(updated));
       return updated;
     });
-    addToast(message, 'info');
   };
 
   // Keep a ref to addNotification so the interval always calls the latest version
