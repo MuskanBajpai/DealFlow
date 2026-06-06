@@ -43,75 +43,10 @@ const App = () => {
     return 'Jayesh Sharma';
   });
 
-  // Notification log state (persisted to localStorage)
-  const [notifications, setNotifications] = useState(() => {
-    const saved = localStorage.getItem('leadcrm_notifications');
-    return saved ? JSON.parse(saved) : [
-      { id: 1, message: 'Welcome to DealFlow! Connect your dashboard to get started.', time: '10 mins ago', read: false },
-      { id: 2, message: 'System update: Real-time database synchronizations enabled.', time: '1 hour ago', read: true }
-    ];
-  });
-  const [showNotificationDropdown, setShowNotificationDropdown] = useState(false);
-  const notifRef = useRef(null);
-
-  // Close notification dropdown on click outside
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (notifRef.current && !notifRef.current.contains(e.target)) {
-        setShowNotificationDropdown(false);
-      }
-    };
-    if (showNotificationDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showNotificationDropdown]);
-
-  // Toast notifications disabled completely per user request
-  const addToast = (message, type = 'success') => {
-    // No-op: Toasts are disabled
-  };
-
-  const removeToast = (id) => {
-    // No-op: Toasts are disabled
-  };
-
-  // Add notification to log history
-  const addNotification = (message) => {
-    const newNotif = {
-      id: Date.now(),
-      message,
-      time: 'Just now',
-      read: false
-    };
-    setNotifications(prev => {
-      const updated = [newNotif, ...prev].slice(0, 50);
-      localStorage.setItem('leadcrm_notifications', JSON.stringify(updated));
-      return updated;
-    });
-  };
-
-  // Keep a ref to addNotification so the interval always calls the latest version
-  const addNotificationRef = useRef(addNotification);
-  useEffect(() => { addNotificationRef.current = addNotification; });
-
-  const handleMarkAllAsRead = () => {
-    setNotifications(prev => {
-      const updated = prev.map(n => ({ ...n, read: true }));
-      localStorage.setItem('leadcrm_notifications', JSON.stringify(updated));
-      return updated;
-    });
-  };
-
-  const handleMarkSingleRead = (id) => {
-    setNotifications(prev => {
-      const updated = prev.map(n => n.id === id ? { ...n, read: true } : n);
-      localStorage.setItem('leadcrm_notifications', JSON.stringify(updated));
-      return updated;
-    });
-  };
-
-  // Real-time notifications map to direct user actions inside the app
+  // Toast and Log Notifications disabled completely per user request
+  const addToast = (message, type = 'success') => {};
+  const removeToast = (id) => {};
+  const addNotification = (message) => {};
 
   // CSV Export & Import actions
   const handleExportCSV = async () => {
