@@ -8,7 +8,6 @@ import ReportsView from './components/ReportsView';
 import ContactsView from './components/ContactsView';
 import SettingsView from './components/SettingsView';
 import LeadModal from './components/LeadModal';
-import Toast from './components/Toast';
 import { 
   getLeads, 
   createLead, 
@@ -30,8 +29,6 @@ const App = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedLead, setSelectedLead] = useState(null);
-  const [toasts, setToasts] = useState([]);
-
   // Dynamically load profile name
   const [profileName, setProfileName] = useState(() => {
     try {
